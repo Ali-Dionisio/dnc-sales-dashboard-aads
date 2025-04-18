@@ -5,7 +5,7 @@ import { DefaultTheme } from "styled-components";
 export const GloboStyle = createGlobalStyle<{ theme?: DefaultTheme}>`
     body, html {
         background: ${(props) => props.theme.appBackground};
-        color: ${(props) => props.theme.appColor};
+        color: ${(props) => props.theme.appColor}; 
         margin: 0;
         padding: 0;
         font-family: "Inter", sans-serif;
