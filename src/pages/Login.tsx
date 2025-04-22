@@ -1,15 +1,5 @@
-import styled from 'styled-components'
-import { Box, Container } from '@mui/material'
-import { Grid } from '@mui/material'
-const LoginArea = styled.div`
-  background: #667;
-`
-const LoginImage = styled.div`
-  background-image: url(/login-image.svg);
-  background-size: cover;
-  height: 100vh;
-  width: 50vw;
-`
+import { Grid, Box, Container } from '@mui/material'
+import { BannerImage } from '@/components'
 
 function Login() {
   return (
@@ -23,11 +13,11 @@ function Login() {
             sx={{ alignItems: 'center', display: 'flex', height: '100vh' }}
           >
             <Container maxWidth="sm">
-              <LoginArea>LOGIN</LoginArea>
+              <h1>LOGIN</h1>
             </Container>
           </Grid>
           <Grid item sm={6} sx={{ display: { xs: 'none', sm: 'block' } }}>
-            <LoginImage />
+            <BannerImage />
           </Grid>
         </Grid>
       </Box>
