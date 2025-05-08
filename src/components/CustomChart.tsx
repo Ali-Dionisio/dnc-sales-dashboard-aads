@@ -1,3 +1,4 @@
+import { useTheme } from 'styled-components'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,10 +10,9 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
-import { Line } from 'react-chartjs.2'
-import { Bar } from 'react-chartjs.2'
+import { Line } from 'react-chartjs-2'
+import { Bar } from 'react-chartjs-2'
 import { CustomChartProps } from '@/types'
-import { useTheme } from 'styled-components'
 
 ChartJS.register(
   CategoryScale,
