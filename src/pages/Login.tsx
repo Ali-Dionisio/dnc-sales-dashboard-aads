@@ -1,3 +1,4 @@
+import { ChangeEvent, useEffect } from 'react'
 import { Grid, Box, Container } from '@mui/material'
 import {
   BannerImage,
@@ -6,9 +7,48 @@ import {
   StyledP,
   Logo,
 } from '@/components'
+import { useFormValidation, usePost } from '@/hooks'
 import { pxToRem } from '@/utils'
-
+import { MessageProps, LoginData, LoginPostData } from '@/types'
 function Login() {
+  const inputs = [
+    { type: 'email', placeholder: 'E-mail' },
+    { type: 'password', placeholder: 'Senha' },
+  ]
+  const { data, loading, error, postData } = usePost<LoginData, LoginPostData>(
+    'login'
+  )
+  const { formValues, formValid, handleChange } = useFormValidation(inputs)
+
+  const handleMessage = (): MessageProps => {
+    if (!error) return { msg: '', type: 'sucess' }
+    switch (error) {
+      case 401:
+        return {
+          msg: 'Email e/ou senha inválidos',
+          type: 'error',
+        }
+      default:
+        return {
+          msg: ' Não foi possível realizar a operação. Entre em contato com o suporte',
+          type: 'error',
+        }
+    }
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    await postData({
+      email: String(formValues[0]),
+      password: String(formValues[1]),
+    })
+  }
+
+  useEffect(() => {
+    if (data?.jwt_token) {
+      console.log('DATA: ', data)
+    }
+  }, [data])
   return (
     <>
       <Box>
@@ -29,21 +69,23 @@ function Login() {
               </Box>
 
               <FormComponent
-                inputs={[
-                  { type: 'email', placeholder: 'Email' },
-                  { type: 'password', placeholder: 'Senha' },
-                ]}
+                inputs={inputs.map((input, index) => ({
+                  type: input.type,
+                  placeholder: input.placeholder,
+                  value: formValues[index] || '',
+                  onChange: (e: ChangeEvent<HTMLInputElement>) =>
+                    handleChange(index, (e.target as HTMLInputElement).value),
+                }))}
                 buttons={[
                   {
                     className: 'primary',
+                    disabled: !formValid || loading,
                     type: 'submit',
-                    children: 'Login',
+                    onClick: handleSubmit,
+                    children: loading ? 'Aguarde...' : 'Login',
                   },
                 ]}
-                message={{
-                  msg: 'Sucesso!!!',
-                  type: 'sucess',
-                }}
+                message={handleMessage()}
               />
             </Container>
           </Grid>
